@@ -654,22 +654,42 @@ public class CommonG {
 	 * 
 	 * @param data string containing the information
 	 * @param type type of information, it can be: json|string
-	 * @param modifications modifications to apply with a format
-	 *                      WHERE,ACTION,VALUE. For instance:
-	 *                      in case of delete action is ("key1", "DELETE", "N/A"),
-	 *                      in case of remove action is ("username=username", "REMOVE", "N/A"),
-	 *                      in case of add action is  ("N/A", "ADD", "&config=config"),
-	 *                      in case of update action is ("username=username", "UPDATE", "username=NEWusername"),
-	 *                      in case of prepend action is ("username=username", "PREPEND", "key1=value1&"),
-	 *                      in case of replace action is ("key2.key3", "REPLACE", "lu->REPLACE")
-	 *                      with a format                 (WHERE,  ACTION,  CHANGE FROM -> TO).
-	 *                      if modifications has fourth argument to replace per special json object
-	 *                      the format is:
-	 *                                             (WHERE,   ACTION,    CHANGE_TO, JSON_TYPE),
-	 *                               for example: "key2.key3", "REPLACE", "{}", "object")
-	 *                      there are 5 special cases of json replacements:
-	 *                      array|object|number|boolean|null
-	 * 
+	 * @param modifications modifications to apply with a format:
+	 * WHERE,ACTION,VALUE
+	 * in case of delete action modifications is ("key1", "DELETE", "N/A"),
+	 * and with json {"key1":"value1","key2":{"key3":null}}
+	 * returns {"key2":{"key3":null}}
+	 * DELETE deletes json's key:value
+	 *
+	 * in case of add action is  ("N/A", "ADD", "&config=config"),
+	 * and with data  username=username&password=password
+	 * returns username=username&password=password&config=config
+	 *
+	 * in case of update action is ("username=username", "UPDATE", "username=NEWusername"),
+	 * and with data username=username&password=password
+	 * returns username=NEWusername&password=password
+	 *
+	 * in case of prepend action is ("username=username", "PREPEND", "key1=value1&"),
+	 * and with data username=username&password=password
+	 * returns key1=value1&username=username&password=password
+	 *
+	 * in case of replace action is ("key2.key3", "REPLACE", "lu->REPLACE")
+	 * and with json {"key1":"value1","key2":{"key3":"value3"}}
+	 * returns {"key1":"value1","key2":{"key3":"vaREPLACEe3"}}
+	 * the  format is (WHERE,  ACTION,  CHANGE FROM -> TO).
+	 * REPLACE replaces a string or its part per other string
+	 *
+	 * if modifications has fourth argument, the replacement is effected per special json object
+	 * the format is:
+	 * (WHERE,   ACTION,    CHANGE_TO, JSON_TYPE),
+	 * for example: "key2.key3", "REPLACE", "{}", "object")
+	 * with json  {"key1":"value1","key2":{"key3":"value3"}}
+	 * returns  {"key1":"value1","key2":{"key3":{}}}
+	 * in this case it replaces per empty json object
+	 *
+	 * there are 5 special cases of json objects replacements:
+	 * array|object|number|boolean|null
+	 *
 	 * @return String
 	 * @throws Exception 
 	 */
@@ -763,8 +783,7 @@ public class CommonG {
 		    }
 		    
 		    modifiedData = new JSONObject(jsonAsMap).toString();
-			if (!"".equals(nullValue))
-			{
+			if (!"".equals(nullValue)) {
 				modifiedData = nullValue;
 			}
 		    modifiedData = modifiedData.replaceAll("\"TO_BE_NULL\"", "null");
