@@ -432,7 +432,7 @@ public class CucumberReporter implements Formatter, Reporter {
                                         value = JsonPath.read(json, "$.fields.status.name");
                                     } catch (PathNotFoundException pe) {
                                         logger.error("Json Path $.fields.status.name not found\r");
-                                        logger.error(json.toString());
+                                        logger.error(json);
                                     }
 
                                     if (value.equals("")) {
