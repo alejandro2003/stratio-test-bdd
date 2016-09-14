@@ -477,7 +477,7 @@ public class GivenGSpec extends BaseGSpec {
    * @param pemFile
    *
    */
-    @Given("^I want to authenticate in DCOS cluster '(.+?)' with email '(.+?)' with user '(.+?)'( and password '(.+?)')?( using pem file '(.+?)')?$")
+    @Given("^I want to authenticate in DCOS cluster '(.+?)' with email '(.+?)' with user '(.+?)'( and password '(.+?)')?( using pem file '(.+?)')$")
     public void authenticateDCOSpem(String remoteHost,String email, String user, String foo, String password, String bar, String pemFile) throws Exception {
         if (pemFile != null) {
             File pem = new File(pemFile);
@@ -486,8 +486,6 @@ public class GivenGSpec extends BaseGSpec {
             }
         }
 
-        commonspec.getLogger().debug("Openning remote ssh connection to " + remoteHost + " with user " +
-                " using pem file " + pemFile);
         commonspec.setRemoteSSHConnection(new RemoteSSHConnection(user, password, remoteHost, pemFile));
         commonspec.getRemoteSSHConnection().runCommand("sudo cat /var/lib/dcos/dcos-oauth/auth-token-secret");
         String DCOSsecret = commonspec.getRemoteSSHConnection().getResult().trim();
