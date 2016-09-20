@@ -467,7 +467,7 @@ public class GivenGSpec extends BaseGSpec {
     public void authenticateDCOSpem(String remoteHost,String email, String user, String foo, String password, String bar, String pemFile) throws Exception {
         String DCOSsecret = null;
         if ((pemFile== null) || (pemFile.equals("none"))) {
-            if (password.equals("")) {
+            if ((password.equals("")) || (password == null)){
                 throw new Exception("You have to provide a password or a pem file to be used for connection");
             }
             commonspec.setRemoteSSHConnection(new RemoteSSHConnection(user, password, remoteHost, null));
