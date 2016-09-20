@@ -1,3 +1,4 @@
+@ignore @manual
 Feature: Failed DCOS Authentication
 
   Scenario: Authentication with pem file null and password null: exception
