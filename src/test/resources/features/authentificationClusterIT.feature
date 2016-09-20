@@ -1,3 +1,4 @@
+@ignore @toocomplex
 Feature: Authentication DCOS
 
   Scenario: Authentication with pem file null and password not null
@@ -5,6 +6,3 @@ Feature: Authentication DCOS
 
   Scenario: Authentication with pem file not null and password null
     Given I want to authenticate in DCOS cluster '${DCOS_IP}' with email 'qatest@stratio.com' with user '${USER}' and password '' using pem file '${PEM}'
-
-  Scenario: Authentication with pem file null and password null: exception
-    Given I want to authenticate in DCOS cluster '${DCOS_IP}' with email 'qatest@stratio.com' with user '${USER}' and password '' using pem file 'none'
