@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 
 @CucumberOptions(features = { "src/test/resources/features/failedAuthentificationClusterIT.feature"})
 public class FailedAuthentificationClusterIT extends BaseGTest {
-    @Test (expectedExceptions = {Exception.class})
+    @Test
     public void simpleTest() throws Exception {
         new CucumberRunner(this.getClass()).runCukes();
     }
