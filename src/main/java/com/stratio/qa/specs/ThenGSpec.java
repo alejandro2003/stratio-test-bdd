@@ -240,6 +240,24 @@ public class ThenGSpec extends BaseGSpec {
         assertThat(this.commonspec, commonspec.getDriver()).as("Expected text not found at page").contains(text);
     }
 
+
+    /**
+     * Checks if a text block exists in the source of an already loaded URL.
+     * Example of use:
+     *
+     * Then a text block exists:
+     * """
+     * Result
+     * PASSED
+     * """
+     *
+     */
+    @Then("^a text block exists:$")
+    public void checkTable(String block) throws Exception {
+        assertThat(this.commonspec, commonspec.getDriver()).as("Expected text block not found at page").contains(block);
+    }
+
+
     /**
      * Verifies that a webelement previously found has {@code text} as text
      *
